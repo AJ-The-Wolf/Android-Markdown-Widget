@@ -4,7 +4,7 @@
     style="@style/Widget.MarkdownWidget.AppWidget.Container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffffff">
+    android:background="@drawable/widget_background">
     <!--android:theme="@style/Theme.MarkdownWidget.AppWidgetContainer"-->
 
     <ImageView
