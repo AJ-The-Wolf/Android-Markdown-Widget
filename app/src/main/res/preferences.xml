@@ -1,7 +1,5 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Altre preferenze già esistenti qui -->
-
     <SeekBarPreference
         android:key="corner_radius"
         android:title="Raggio angoli"
