@@ -73,4 +73,14 @@ class MarkdownRenderer(private val context: Context, private val width: Int, pri
     fun needsUpdate(width: Int, height: Int, s: String):Boolean {
         return this.width != width || this.height != height || this.data != s
     }
+
+    private fun createBackground(context: Context): GradientDrawable {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        val radius = prefs.getInt("corner_radius", 16) // default 16dp
+
+        return GradientDrawable().apply {
+            cornerRadius = radius.toFloat()
+            setColor(Color.WHITE) // cambia se già hai logica per il colore
+        }
+    }
 }
