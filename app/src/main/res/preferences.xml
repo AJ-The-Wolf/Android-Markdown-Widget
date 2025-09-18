@@ -1,1 +1,13 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- Altre preferenze già esistenti qui -->
+
+    <SeekBarPreference
+        android:key="corner_radius"
+        android:title="Raggio angoli"
+        android:summary="Imposta il raggio degli angoli del widget"
+        android:defaultValue="16"
+        android:min="0"
+        android:max="64" />
+
+</PreferenceScreen>
