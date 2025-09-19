@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="Aspetto">
+        <SeekBarPreference
+            android:key="corner_radius"
+            android:title="Raggio angoli (dp)"
+            android:summary="Imposta il raggio degli angoli del widget"
+            android:defaultValue="0"
+            android:min="0"
+            android:max="50" />
+
+        <EditTextPreference
+            android:key="bg_color"
+            android:title="Colore sfondo (HEX)"
+            android:defaultValue="#FFFFFFFF"
+            android:summary="Inserisci colore in formato #AARRGGBB o #RRGGBB" />
+
+        <EditTextPreference
+            android:key="text_color"
+            android:title="Colore testo (HEX)"
+            android:defaultValue="#FF000000"
+            android:summary="Inserisci colore in formato #AARRGGBB o #RRGGBB" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Logging">
+        <SwitchPreferenceCompat
+            android:key="enable_logging"
+            android:title="Abilita logging"
+            android:defaultValue="false"
+            android:summary="Registra solo warning/error/critical" />
+
+        <Preference
+            android:key="clear_logs"
+            android:title="Cancella log"
+            android:summary="Elimina il file di log (se presente)" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
