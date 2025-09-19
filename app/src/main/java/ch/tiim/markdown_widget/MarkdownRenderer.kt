@@ -12,7 +12,7 @@ import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import kotlin.math.max
-
+import android.graphics.drawable.GradientDrawable
 
 private const val TAG = "MarkdownRenderer"
 class MarkdownRenderer(private val context: Context, private val width: Int, private val height: Int, private val data: String, private val onReady: ((Bitmap) -> Unit) = {}) {
