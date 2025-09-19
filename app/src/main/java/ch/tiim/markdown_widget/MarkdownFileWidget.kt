@@ -23,6 +23,7 @@ import java.io.BufferedReader
 import java.io.FileNotFoundException
 import java.io.InputStream
 import java.io.InputStreamReader
+import androidx.core.text.HtmlCompat
 
 
 private const val TAG = "MarkdownFileWidget"
