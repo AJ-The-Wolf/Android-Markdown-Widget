@@ -118,6 +118,12 @@ class MarkdownFileWidget : AppWidgetProvider() {
         val views = RemoteViews(context.packageName, R.layout.markdown_file_widget)
         views.setImageViewBitmap(R.id.renderImg, md.getBitmap())
 
+
+        val rv = RemoteViews(context.packageName, R.layout.widget_layout)
+        MarkdownWidgetHelper.applyToRemoteViews(context, rv, R.layout.widget_layout)
+        // poi setta il testo generato: 
+        rv.setTextViewText(R.id.widget_text, parsedHtmlOrPlainText)    
+
         //views.setImageViewBitmap(R.id.renderImg, bitmap)
         if (tapBehavior != TAP_BEHAVIOUR_NONE) {
             views.setOnClickPendingIntent(
