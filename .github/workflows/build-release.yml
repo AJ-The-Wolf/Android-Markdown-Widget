@@ -1,0 +1,55 @@
+name: Build Release (signed)
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+
+      - name: Generate temporary keystore
+        run: |
+          KEYSTORE_PASSWORD="passw0rd123"
+          KEY_ALIAS="mwkey"
+          KEY_PASSWORD="passw0rd123"
+          mkdir -p build/keystore
+          keytool -genkeypair -v -keystore build/keystore/markdown-release.keystore -storepass "$KEYSTORE_PASSWORD" -keypass "$KEY_PASSWORD" -alias "$KEY_ALIAS" -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=MarkdownWidget, OU=Dev, O=You, L=Unknown, S=Unknown, C=IT"
+          echo "KEYSTORE_PATH=build/keystore/markdown-release.keystore" >> $GITHUB_ENV
+          echo "KEYSTORE_PASSWORD=$KEYSTORE_PASSWORD" >> $GITHUB_ENV
+          echo "KEY_ALIAS=$KEY_ALIAS" >> $GITHUB_ENV
+          echo "KEY_PASSWORD=$KEY_PASSWORD" >> $GITHUB_ENV
+
+      - name: Build Release APK
+        run: ./gradlew assembleRelease --no-daemon --stacktrace
+
+      - name: Sign APK and zipalign
+        run: |
+          APK_PATH=$(find app/build/outputs/apk/release -name "*release*.apk" | head -n1)
+          if [ -z "$APK_PATH" ]; then
+            echo "No release APK found; aborting"
+            exit 1
+          fi
+          jarsigner -keystore $KEYSTORE_PATH -storepass $KEYSTORE_PASSWORD -keypass $KEY_PASSWORD $APK_PATH $KEY_ALIAS
+          ANDROID_BUILD_TOOLS=$(ls /usr/local/lib/android/sdk/build-tools | sort -V | tail -n1)
+          /usr/local/lib/android/sdk/build-tools/$ANDROID_BUILD_TOOLS/zipalign -v -p 4 $APK_PATH app/build/outputs/apk/release/app-release-aligned.apk
+          echo "FinalAPK=app/build/outputs/apk/release/app-release-aligned.apk" >> $GITHUB_ENV
+
+      - name: Upload signed APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: markdownwidget-release
+          path: ${{ env.FinalAPK }}
